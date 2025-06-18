@@ -1,0 +1,88 @@
+@use "../../color.scss" as C;
+
+.Layout {
+  height: auto;
+  width: 150px;
+  background-color: C.$side_backgroundColor;
+  nav {
+    text-align: center;
+    ul {
+      li {
+        margin: 0 0 0.5rem 0;
+        list-style-type: none;
+        a {
+          color: C.$fontColor;
+        }
+      }
+    }
+  }
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// 每個選單項目的標題列
+.menu-item-title {
+  display: flex;
+  // 移除 justify-content，讓元素們自然靠左對齊
+  // justify-content: space-between;
+  align-items: center; // 保持垂直居中
+  padding: 10px 0;
+  cursor: pointer;
+
+  span,
+  a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    // 如果 a 標籤有底線，可以在這裡統一移除
+    text-decoration: none;
+  }
+
+  // ✅ 【修改】讓 hover 效果也作用於整個標題列
+  &:hover {
+    span,
+    a,
+    .menu-item-arrow {
+      color: white;
+    }
+  }
+}
+
+// 箭頭圖示的樣式
+.menu-item-arrow {
+  color: rgba(255, 255, 255, 0.8);
+  transition: transform 0.4s ease-in-out, color 0.3s ease;
+
+  // 【新增】在箭頭左邊增加一點間距，讓它和文字分開
+  margin-left: 8px;
+}
+
+// 子選單的樣式 (核心動畫)
+.submenu {
+  // 關鍵：用 max-height=0 和 overflow:hidden 來隱藏
+  max-height: 0;
+  overflow: hidden;
+  padding-left: 20px; // 子選單縮排，看起來像目錄
+
+  // 關鍵：為 max-height 加上過渡動畫，實現滑動效果
+  transition: max-height 0.4s ease-in-out;
+}
+
+// --- 展開時的狀態 ---
+
+// 當 li 元素有 is-open class 時...
+li.is-open {
+  // 1. 旋轉箭頭
+  .menu-item-arrow {
+    transform: rotate(180deg); // 將向下的箭頭旋轉成向上
+  }
+
+  // 2. 展開子選單
+  .submenu {
+    // 關鍵：設定一個足夠大的 max-height 讓內容可以完全顯示
+    max-height: 1000px; // 這個值要大於您任何子選單可能的高度
+  }
+}

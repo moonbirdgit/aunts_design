@@ -1,0 +1,138 @@
+@use "../../color.scss" as C;
+.Nav {
+  position: relative; // 關鍵：為了定位內部的 toggle 按鈕
+  width: 280px; // 固定的寬度
+  flex-shrink: 0; // 防止側邊欄在視窗縮小時被壓縮變形
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px; // 給頂部一些空間
+
+  background-color: C.$side_backgroundColor;
+  color: C.$back; // 讓裡面的文字預設為白色
+  transition: transform 0.4s ease-in-out;
+  // 不再需要 overflow: hidden 了
+  &.is-collapsed {
+    // ✅ 改為使用 transform 將整個 Nav 向左平移 100% (也就是它自身的寬度)
+    transform: translateX(-100%);
+
+    > *:not(.Nav__toggle) {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+  }
+}
+.Nav__content-wrapper {
+  overflow-y: auto; // 內容超出時，只讓這個容器滾動
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+// --- 凸出來的觸發按鈕 ---
+.Nav__toggle {
+  position: absolute;
+  top: 90px; // 按鈕的垂直位置，可自行調整
+  left: 105%; // 關鍵：讓按鈕的左邊緣緊貼側邊欄的右邊緣
+
+  // 關鍵：將按鈕向左移動它自身寬度的一半，實現懸掛效果
+  transform: translateX(-50%);
+
+  // 按鈕尺寸
+  width: 50px; // 總寬度 (視覺上只會看到一半，約 25px)
+  height: 100px; // 總高度
+
+  background-color: C.$side_backgroundColor;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  // 做出右側的圓角，形成標籤形狀
+  border-radius: 0% 60px 60px 0;
+  transition: transform 0.4s ease, background-color 0.3s ease;
+
+  // 菱形圖示也加上過渡效果
+  &::after {
+    // ...
+    transition: transform 0.4s ease;
+  }
+  // Hover 效果
+  &:hover {
+    background-color: darken(C.$side_backgroundColor, 5%);
+  }
+
+  // 使用偽元素製作菱形圖示
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    // 先置中，再旋轉
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background-color: C.$back; // 半透明的白色
+  }
+}
+
+// 這裡可以放您 Head.scss, Layout.scss, Info.scss 的內容
+// 例如 Layout.scss 的樣式:
+.Layout {
+  margin-top: 40px;
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      margin-bottom: 20px;
+      a {
+        color: C.$back;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
+.Nav.is-collapsed {
+  .Nav__toggle::after {
+    // 旋轉成返回的箭頭樣式
+    transform: translate(-50%, -50%) rotate(-135deg);
+  }
+}
+// Nav.scss (請將此段貼在檔案最下方)
+
+// --- 美化滾動條樣式 ---
+// 這個樣式只會作用於 .Nav__content-wrapper 內部
+.Nav__content-wrapper {
+  // --- 1. 針對 Firefox ---
+  // 讓滾動條變細，並設定顏色 (拇指顏色 軌道顏色)
+  scrollbar-width: thin;
+  scrollbar-color: C.$back C.$side_backgroundColor;
+
+  // --- 2. 針對 Webkit 核心的瀏覽器 (Chrome, Safari, Edge) ---
+  // 設定整個滾動條的寬度
+  &::-webkit-scrollbar {
+    width: 6px; // 纖細的寬度
+  }
+
+  // 設定滾動條的軌道 (背景)
+  &::-webkit-scrollbar-track {
+    background: transparent; // 背景設為透明，讓它消失
+    margin: 5px 0; // 上下留一點邊距
+  }
+
+  // 設定滾動條的拇指 (可以拖動的部分)
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(C.$back, 0.5); // 使用您的文字顏色，但設為半透明
+    border-radius: 10px; // 圓角，看起來更柔和
+    border: 1px solid transparent; // 避免邊框問題
+    background-clip: content-box;
+  }
+
+  // 滑鼠移到拇指上時的樣式
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(C.$back, 0.8); // 顏色加深，提供回饋
+  }
+}

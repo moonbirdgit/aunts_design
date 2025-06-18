@@ -1,0 +1,48 @@
+// Info.scss
+@use "../../color.scss" as C;
+// 這是 .Info 元件的根容器
+.Info {
+  // ✅ 保持這兩個關鍵屬性
+  margin-top: auto; // 讓它被推到 Nav 容器的底部
+  padding: 30px 20px; // 上下 30px，左右 20px 的內邊距
+
+  // 我們把 .gmail 和 .phone 的共同樣式提取出來
+  // 使用 & > div 表示 .Info 的直接子 div 元素 (也就是 .gmail 和 .phone)
+  & > div {
+    display: flex; // 使用 Flexbox 佈局
+    align-items: center; // ✅ 關鍵：讓圖示和文字在垂直方向上居中對齊
+
+    // 為每一行設定一個固定的高度，或用 margin-bottom 分隔
+    &:not(:last-child) {
+      margin-bottom: 15px; // 在 gmail 和 phone 之間增加間距
+    }
+  }
+
+  // 圖示的樣式
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px; // 在圖示和文字之間增加間距
+  }
+
+  // 文字的樣式
+  p {
+    font-family: "myfont";
+    font-size: 14px;
+    color: C.$back; // 讓文字顏色和選單的預設顏色一致
+    // 讓文字在被複製時可以被選取
+    user-select: text;
+  }
+}
+
+// 移除舊的、重複的樣式
+/*
+.gmail {
+  display: flex;
+  height: 30px;
+}
+.phone {
+  display: flex;
+  height: 30px;
+}
+*/

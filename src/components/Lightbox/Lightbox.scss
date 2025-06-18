@@ -1,0 +1,82 @@
+// src/components/Lightbox/Lightbox.scss
+
+// 燈箱背景遮罩
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+
+  // ✅ 加上 padding，讓圖片和螢幕邊緣有一些間距
+  padding: 5vh 5vw; // 上下 5% 視窗高度，左右 5% 視窗寬度
+  box-sizing: border-box; // 確保 padding 不會讓容器超出 100%
+}
+
+// 燈箱內容容器
+.lightbox-content {
+  // ✅ 【核心修改】
+  // 移除固定的 max-width 和 max-height
+  // max-width: 90vw;
+  // max-height: 90vh;
+
+  // ✅ 讓它自己負責滾動
+  overflow: auto;
+
+  // ✅ 設定最大尺寸，這樣它就不會超出 overlay 的 padding 範圍
+  max-width: 100%;
+  max-height: 100%;
+
+  // 加上這行可以讓滾動條樣式在某些瀏覽器上更好看
+  -webkit-overflow-scrolling: touch;
+
+  // 增加一個小陰影，讓圖片更有立體感
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  img {
+    // ✅ 【核心修改】
+    // 移除所有 max- 屬性，讓圖片以其原始尺寸渲染
+    // max-width: 100%;
+    // max-height: 100%;
+
+    // ✅ 讓圖片以塊級元素顯示，這樣它才能撐開父容器
+    display: block;
+    width: auto;
+    height: auto;
+
+    // 如果您希望圖片寬度最大不超過一個值，可以在這裡設定
+    // 例如，不希望圖片在超寬螢幕上變得過大
+    max-width: 1200px;
+
+    // animation: zoomIn 0.3s ease; // 動畫可以保留或移除，取決於您喜歡的效果
+  }
+}
+
+// 關閉按鈕 (保持不變)
+.lightbox-close-button {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+// 動畫效果 (保持不變)
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

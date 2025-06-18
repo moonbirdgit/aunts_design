@@ -1,0 +1,60 @@
+// App.scss
+
+@use "./color.scss" as C;
+
+// --- 1. 基本重置 (Reset) ---
+* {
+  font-family: "myfont";
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+// --- 2. 建立穩固的頁面高度基礎 ---
+// 讓 html, body, #root 都撐滿高度，為 .App 的 100vh 做準備
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: C.$back;
+}
+
+// --- 3. 【關鍵】在 .App 容器上設定 Flex 佈局 ---
+
+// --- 4. 主要內容區的樣式 (這部分您的寫法是正確的) ---
+.MainContent {
+  flex-grow: 1; // 填滿剩餘寬度
+  padding: 50px; // 設定內邊距
+  overflow-y: auto; // 內容超出時，只讓自己滾動
+}
+.App {
+  // ✅ 1. 從 flex 改為 grid
+  display: grid;
+
+  // ✅ 2. 定義兩欄佈局
+  // 預設狀態下：第一欄 280px (給 Nav)，第二欄自動填滿剩餘空間
+  grid-template-columns: 280px 1fr;
+
+  height: 100vh;
+
+  // ✅ 3. 為欄寬的變化加上平滑的過渡動畫
+  transition: grid-template-columns 0.4s ease-in-out;
+}
+
+// ✅ 4. 當側邊欄收合時，改變整個 App 的 Grid 佈局
+.App.nav-collapsed {
+  // 將第一欄的寬度變為 0，第二欄自動擴展填滿所有空間
+  grid-template-columns: 0px 1fr;
+}
+
+// --- 主要內容區樣式 ---
+.MainContent {
+  // ✅ 5. 移除 flex-grow，因為 Grid 佈局會自動處理寬度
+  // flex-grow: 1;
+  padding: 50px;
+  overflow-y: auto;
+}

@@ -1,0 +1,25 @@
+// src/components/PageWrapper/PageWrapper.scss
+@use "../../color.scss" as C;
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; // ✅ 關鍵：讓所有內容靠右對齊
+  margin-bottom: 40px; // 在標題和內容之間增加一些間距
+}
+
+.page-title {
+  font-family: "myfont";
+  font-size: 2rem; // 標題字體大小
+  font-weight: 300; // 較細的字重
+  letter-spacing: 0.1em; // 增加字間距，更有設計感
+  color: C.$side_backgroundColor; // 使用您側邊欄的深色
+  margin-bottom: 12px; // 標題和底線之間的間距
+  text-transform: uppercase; // 讓字母都大寫，例如 "BANNER"
+}
+
+.page-underline {
+  width: 100%; // ✅ 讓底線跟父容器一樣寬 (也就是整個內容區)
+  height: 3px; // 底線的高度
+  background-color: #fff; // 一個柔和的灰色，您可以換成白色 #fff
+}
